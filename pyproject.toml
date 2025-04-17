@@ -1,0 +1,16 @@
+[project]
+name = "binance-trade-api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.12",
+    "pydantic-settings>=2.8.1",
+    "tortoise-orm[asyncpg]>=0.25.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+]
