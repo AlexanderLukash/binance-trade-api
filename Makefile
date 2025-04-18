@@ -3,7 +3,7 @@ EXEC = docker exec -it
 LOGS = docker logs
 ENV = --env-file .env
 APP_FILE = docker-compose.yaml
-APP_CONTAINER = main-app
+APP_CONTAINER = trade-api-app
 
 
 

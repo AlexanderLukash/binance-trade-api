@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: main-app
+    container_name: trade-api-app
     ports:
       - "8000:8000"
     command: "uvicorn --factory src.application.api.main:create_app --reload --timeout-graceful-shutdown 2 --host 0.0.0.0 --port 8000"
@@ -11,3 +11,10 @@ services:
       - .env
     volumes:
       - .:/app/
+
+    networks:
+      - backend
+
+networks:
+  backend:
+    external: true

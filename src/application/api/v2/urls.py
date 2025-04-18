@@ -1,9 +1,9 @@
 from fastapi.routing import APIRouter
 
-from src.application.api.v1.trade.handlers import router as trade_router
+from src.application.api.v2.trade.handlers import router as trade_router
 
 router = APIRouter(
-    prefix="/v1",
+    prefix="/v2",
 )
 
 router.include_router(trade_router)

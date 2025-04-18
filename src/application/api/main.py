@@ -6,6 +6,7 @@ from tortoise.contrib.fastapi import register_tortoise
 
 from src.application.api.middlewares.main import setup_middlewares
 from src.application.api.v1.urls import router as v1_router
+from src.application.api.v2.urls import router as v2_router
 from src.logic.init import init_container
 from src.settings.config import Config
 
@@ -21,7 +22,7 @@ def create_app():
     app = FastAPI(
         title="Simple Bibance API",
         docs_url="/api/docs",
-        description="A simple kafka + ddd example.",
+        description="A simple binance api.",
         debug=True,
         lifespan=lifespan,
     )
@@ -34,5 +35,6 @@ def create_app():
         add_exception_handlers=True,
     )
     app.include_router(v1_router, prefix="/api")
+    app.include_router(v2_router, prefix="/api")
 
     return app
