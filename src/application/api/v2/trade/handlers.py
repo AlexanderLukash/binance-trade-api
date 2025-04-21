@@ -27,10 +27,19 @@ async def get_prices(
 
 
 @router.post("/stats", response_model=list[StatsResponseSchema])
-async def get_prices(  # noqa
+async def get_stats(
     payload: PriseRequestSchema,
     container: Container = Depends(init_container),
 ):
     trade_service: BaseTradeService = container.resolve(BaseTradeService)
     stats = await trade_service.get_stat_by_symbols(payload.symbols)
-    return stats
+    return [
+        StatsResponseSchema(
+            symbol=stat["symbol"],
+            max_price=stat["max_price"],
+            min_price=stat["min_price"],
+            avg_price=stat["avg_price"],
+            trades=stat["trades_count"],
+        )
+        for stat in stats
+    ]

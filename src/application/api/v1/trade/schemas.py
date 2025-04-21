@@ -16,3 +16,4 @@ class StatsResponseSchema(BaseModel):
     min_price: Optional[float | int]
     max_price: Optional[float | int]
     avg_price: Optional[float | int]
+    trades: Optional[int]
