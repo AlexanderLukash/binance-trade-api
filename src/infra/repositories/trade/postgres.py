@@ -2,10 +2,9 @@ from dataclasses import dataclass
 import logging
 from datetime import datetime, timedelta
 
-from tortoise.functions import Min, Max, Avg
 
 from src.infra.repositories.trade.base import BaseTradeRepository
-from src.infra.repositories.trade.models.trade import TradeModel
+from src.infra.repositories.trade.models.trade import TradeModel, TradeStatModel
 
 logger = logging.getLogger(__name__)
 
@@ -29,18 +28,9 @@ class PostgresTradeRepository(BaseTradeRepository):
         time_threshold = datetime.now() - timedelta(hours=24)
         symbol_usdt_list = [f"{symbol}USDT" for symbol in symbols]
 
-        results = (
-            await TradeModel.filter(
-                symbol__in=symbol_usdt_list,
-                created_at__gte=time_threshold,
-            )
-            .annotate(
-                min_price=Min("price"),
-                max_price=Max("price"),
-                avg_price=Avg("price"),
-            )
-            .group_by("symbol")
-            .values("symbol", "min_price", "max_price", "avg_price")
-        )
+        results = await TradeStatModel.filter(
+            symbol__in=symbol_usdt_list,
+            last_updated__gte=time_threshold,
+        ).values("symbol", "min_price", "max_price", "avg_price", "trades_count")
 
         return results
